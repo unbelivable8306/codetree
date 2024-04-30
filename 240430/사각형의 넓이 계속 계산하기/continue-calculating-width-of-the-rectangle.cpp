@@ -6,7 +6,7 @@ int main() {
 	int cnt = 0;
 	while (1) {
 		cin >> a >> b >> c;
-		cout << a * b;
+		cout << a * b << endl;;
 		if (c == 'C') break;
 	}
 		

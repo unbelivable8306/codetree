@@ -6,7 +6,7 @@ int main() {
 		cin >>a[i];
 	}
 	for (int i = 9; i >= 0; i--) {
-		cout << a[i] << ' ';
+		cout << a[i];
 	}
 
 }

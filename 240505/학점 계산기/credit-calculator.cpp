@@ -14,6 +14,6 @@ int main() {
 	cout.precision(1);
 	cout << avr << endl;
 	if (avr >= 4.0) cout << "Perfect";
-	else if (avr >= 30) cout << "Good";
+	else if (avr >= 3.0) cout << "Good";
 	else cout << "Poor";
 }

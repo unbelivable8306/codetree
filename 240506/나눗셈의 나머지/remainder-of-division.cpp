@@ -12,7 +12,7 @@ int main() {
 		if (a<=1) break;
 	}
 
-	for (int i = 0; i < 9; i++) {
+	for (int i = 0; i <= 9; i++) {
 		sum += cnt[i] * cnt[i];
 	}
 	cout << sum;

@@ -1,10 +1,10 @@
 #include <iostream>
 using namespace std;
-int cnt[11], a, b, c, d;
+int cnt[10], a, b, c, d;
 int sum = 0;
 int main() {
 	cin >> a >> b;
-	for (int i = 1; i <= 20; i++) {
+	for (int i = 1; i <= 10; i++) {
 		c = a % b;
 		d = a / b;
 		cnt[c]++;

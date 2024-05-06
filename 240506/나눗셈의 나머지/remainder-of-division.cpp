@@ -9,7 +9,7 @@ int main() {
 		d = a / b;
 		cnt[c]++;
 		a /= b;
-		if (d == 0) break;
+		if (a<=1) break;
 	}
 
 	for (int i = 0; i < 9; i++) {

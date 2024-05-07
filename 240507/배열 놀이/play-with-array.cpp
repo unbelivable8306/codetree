@@ -25,9 +25,10 @@ int main() {
 					break;
 				}
 			}
-			if (tag == false) cout << 0;
+			if (tag == false) cout << 0 << endl;
+			else if(tag == true) cout << index << endl;
 		}
-			cout << index << endl;
+			
 		}
 		if (p == 3) {
 			cin >> s >> r;

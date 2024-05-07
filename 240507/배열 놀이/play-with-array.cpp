@@ -28,13 +28,12 @@ int main() {
 			if (tag == false) cout << 0 << endl;
 			else if(tag == true) cout << index << endl;
 		}
-			
-		}
 		if (p == 3) {
 			cin >> s >> r;
-			for (int i = s-1; i <= r-1; i++) {
+			for (int i = s - 1; i <= r - 1; i++) {
 				cout << a[i] << " ";
 			}
 			cout << endl;
 		}
 	}
+}

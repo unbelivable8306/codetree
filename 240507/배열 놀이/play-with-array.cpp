@@ -20,13 +20,16 @@ int main() {
 			cin >> s;
 			for (int i = 0; i < n; i++) {
 				if (a[i] == s) {
-					index = i+1;
+					index = i + 1;
 					tag = true;
 					break;
 				}
 			}
-			if (tag == false) cout << 0 << endl;
-			else if(tag == true) cout << index << endl;
+			if (tag == false) cout << '0' << endl;
+			else if (tag == true) {
+				cout << index << endl;
+				tag = false;
+			}
 		}
 		if (p == 3) {
 			cin >> s >> r;

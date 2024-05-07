@@ -3,6 +3,7 @@ using namespace std;
 int n, q;
 int a[100];
 int input[3];
+bool tag = false;
 int p, s, r, index;
 int main() {
 	cin >> n >> q;
@@ -20,9 +21,12 @@ int main() {
 			for (int i = 0; i < n; i++) {
 				if (a[i] == s) {
 					index = i+1;
+					tag = true;
 					break;
 				}
 			}
+			if (tag == false) cout << 0;
+		}
 			cout << index << endl;
 		}
 		if (p == 3) {
@@ -33,4 +37,3 @@ int main() {
 			cout << endl;
 		}
 	}
-}

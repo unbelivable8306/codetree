@@ -10,6 +10,6 @@ int main() {
 	else if (m == 'B') cout << 2;
 	else if (m == 'R') cout << 3;
 	else if (m == 'O') cout << 4;
-	else if (m == 'O') cout << 5;
+	else if (m == 'S') cout << 5;
 	else cout << "None";
 }

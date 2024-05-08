@@ -10,7 +10,7 @@ int main() {
         if (a[i] == 2) cnt++;
         if (cnt == 3) {
             chpoint = i + 1;
-            cnt = 0;
+            cnt = -100;
         }
     }
     cout << chpoint;

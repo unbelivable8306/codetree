@@ -3,24 +3,22 @@
 #include <vector>
 #include<functional>
 using namespace std;
-
-vector<int> s;
+int a[100];
 
 int main() {
     int n,m;
     cin >> n;
     for (int i = 0; i < n; i++) {
-        cin >> m;
-        s.push_back(m);
+        cin >> a[i];  
     }
-    sort(s.begin(), s.end());
+    sort(a, a+n);
     for (int i = 0; i < n; i++) {
-        cout << s[i] << " ";
+        cout << a[i] << " ";
     }
     cout << endl;
-    sort(s.begin(), s.end(), greater<int>());
+    sort(a,a+n, greater<int>());
     for (int i = 0; i < n; i++) {
-        cout << s[i] << " ";
+        cout << a[i] << " ";
     }
     return 0;
 }

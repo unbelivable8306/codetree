@@ -9,7 +9,6 @@ vector<int> s;
 int main() {
     int n,m;
     cin >> n;
-    cout << endl;
     for (int i = 0; i < n; i++) {
         cin >> m;
         s.push_back(m);

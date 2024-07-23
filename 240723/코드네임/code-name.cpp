@@ -4,29 +4,19 @@
 #include<tuple>
 using namespace std;
 
-class student {
-public:
-    char name;
-    int score;
+tuple<char, int> t[5];
 
-    student(char n='a', int s=0) {
-        this->name = n;
-        this->score = s;
-    }
-};
-
-bool compare(student a, student b) {
-    return a.score < b.score;
+bool compare(tuple<char,int> a, tuple<char,int> b) {
+    return get<1>(a) < get<1>(b);
 }
 
 int main() {
-    student stu[5];
     for (int i = 0; i < 5; i++) {
         char a;
         int b;
         cin >> a >> b;
-        stu[i] = student(a, b);
+        t[i] = make_tuple(a, b);
     }
-    sort(stu, stu + 5, compare);
-    cout << stu[0].name << " " << stu[0].score;
+    sort(t, t + 5, compare);
+    cout << get<0>(t[0]) << " " << get<1>(t[0]);
 }

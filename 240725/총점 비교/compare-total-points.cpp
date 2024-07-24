@@ -4,24 +4,16 @@
 #include <string>
 using namespace std;
 
-class student {
-public:
-    string name;
-    int korean;
-    int math;
-    int english;
-    student(string a="a", int b=0, int c=0, int d=0) {
-        this->name = a;
-        this->korean = b;
-        this->math = c;
-        this->english = d;
-    }
-};
+tuple<string, int, int, int> student[10];
 
-student STU[10];
-
-bool compare(student a, student b) {
-    return a.korean + a.math + a.english < b.korean + b.math + b.english;
+bool compare(tuple<string, int, int, int> a, tuple<string, int, int, int> b) {
+    string name1;
+    int kor, math, eng;
+    tie(name1, kor, math, eng) = a;
+    string name2;
+    int kor1, math1, eng1;
+    tie(name2, kor1, math1, eng1) = b;
+    return kor + math + eng < kor1 + math1 + eng1;
 }
 
 int main() {
@@ -31,11 +23,14 @@ int main() {
         string a;
         int b, c, d;
         cin >> a >> b >> c >> d;
-        STU[i]=student(a, b, c, d);
+        student[i] = make_tuple(a,b,c,d);
     }
-    sort(STU, STU + n, compare);
+    sort(student, student + n, compare);
     for (int i = 0; i < n; i++) {
-        cout << STU[i].name << " " << STU[i].korean << " " << STU[i].math << " " << STU[i].english << endl;
+        string a;
+        int b, c, d;
+        tie(a, b, c, d) = student[i];
+        cout << a << " " << b << " " << c << " " << d << endl;
     }
     return 0;
 }

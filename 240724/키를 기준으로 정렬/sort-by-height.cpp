@@ -1,37 +1,31 @@
 #include <iostream>
 #include <algorithm>
+#include <tuple>
 #include <string>
 using namespace std;
 
-class student {
-public:
-    string name;
-    int tall;
-    int weight;
-    student(string a="a", int b=0, int c=0) {
-        this->name = a;
-        this->tall = b;
-        this->weight = c;
-    }
-};
+tuple<string, int, int> student[10];
 
-
-bool compare(student a, student b) {
-    return a.tall < b.tall;
+bool compare(tuple<string, int, int> a, tuple<string, int, int> b) {
+    return get<1>(a) < get<1>(b);
 }
+
 int main() {
-    student STU[10];
     int n;
-    string a;
-    int b, c;
     cin >> n;
+    
     for (int i = 0; i < n; i++) {
+        string a;
+        int b, c;
         cin >> a >> b >> c;
-        STU[i] = student(a, b, c);
+        student[i] = make_tuple(a, b, c);
     }
-    sort(STU, STU + n, compare);
+    sort(student, student + n, compare);
     for (int i = 0; i < n; i++) {
-        cout << STU[i].name << " " << STU[i].tall << " " << STU[i].weight << endl;
+        string a;
+        int b, c;
+        tie(a, b, c) = student[i];
+        cout << a << " " << b << " " << c << endl;
     }
     return 0;
 }

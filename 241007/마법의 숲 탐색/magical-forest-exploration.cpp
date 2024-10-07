@@ -61,7 +61,7 @@ int bfs(int x, int y) {
 			}
 		}
 	}
-	cout << result << endl;
+	//cout << result << endl;
 	return result;
 }
 

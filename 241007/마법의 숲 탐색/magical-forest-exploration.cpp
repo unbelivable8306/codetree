@@ -1,155 +1,121 @@
 #include<iostream>
-#include<vector>
-#include<tuple>
-#include<algorithm>
 #include<queue>
+#include<algorithm>
+
+#define MAX_L 70
 
 using namespace std;
 
-int map[75][72];
-vector<tuple<int, int>> unit;
-queue<tuple<int,int>> q;
-int visited[75][72];
-vector<tuple<int, int>> exit_set;
 int R, C, K;
-int num = 2;
-int ans = 0;
-int dx[4] = { -1,0,1,0 };
-int dy[4] = { 0,1,0,-1 };
+int map[MAX_L + 3][MAX_L];
+int dy[4] = { 0, 1, 0, -1 }, dx[4] = { -1, 0, 1, 0 };
+bool Exit[MAX_L + 3][MAX_L];
+int ans;
 
-void init_map() {
-	for (int i = 0; i <= R + 3; i++) {
-		for (int j = 0; j <= C + 1; j++) {
-			if (j == 0 || j == C + 1 || i == R + 3) {
-				map[i][j] = 1;
-			}
-			else map[i][j] = 0;
+bool in_range(int x, int y) {
+	return 3 <= x && x < R + 3 && 0 <= y && y < C;
+}
+
+bool cango(int x, int y) {
+	bool flag = 0 <= y - 1 && y + 1 < C && x + 1 < R + 3;
+	flag = flag && map[x - 1][y - 1] == 0;
+	flag = flag && map[x - 1][y] == 0;
+	flag = flag && map[x - 1][y + 1] == 0;
+	flag = flag && map[x][y - 1] == 0;
+	flag = flag && map[x][y] == 0;
+	flag = flag && map[x][y + 1] == 0;
+	flag = flag && map[x + 1][y] == 0;
+	return flag;
+}
+
+void reset_map() {
+	for (int i = 0; i < R + 3; i++) {
+		for (int j = 0; j < C; j++) {
+			map[i][j] = 0;
+			Exit[i][j] = false;
 		}
 	}
 }
 
-void init_visited() {
-	for (int i = 0; i <= R + 3; i++) {
-		for (int j = 0; j <= C + 1; j++) {
-			if (j == 0 || j == C + 1 || i == R + 3) {
-				visited[i][j] = 1;
-			}
-			else visited[i][j] = 0;
+int bfs(int x, int y) {
+	int result = x;
+	queue<pair<int, int>> q;
+	bool visited[MAX_L + 3][MAX_L];
+	for (int i = 0; i < R + 3; i++) {
+		for (int j = 0; j < C; j++) {
+			visited[i][j] = false;
 		}
 	}
-}
-
-void check_map() {
-	for (int i = 0; i <= R + 3; i++) {
-		for (int j = 0; j <= C + 1; j++) {
-			cout << map[i][j] << " ";
-		}
-		cout << "\n";
-	}
-}
-
-void check_tuple() {
-	for (auto i : unit) {
-		int x = get<0>(i);
-		int y = get<1>(i);
-		cout << "x : " << x << " " << "y : " << y << " " << "\n";
-	}
-}
-
-void check_exit_set() {
-	for (auto i : exit_set) {
-		int x = get<0>(i);
-		int y = get<1>(i);
-		cout << "x : " << x << " " << "y : " << y << " " << "\n";
-	}
-}
-
-bool contain(vector<tuple<int, int>> v, tuple<int, int> m) {
-	for (auto i : v) {
-		if (i == m) return true;
-	}
-	return false;
-}
-
-
-
-int bfs(int ri, int rj) {
-	visited[ri][rj] = 1;
-	q.push({ ri,rj });
-	int mx_i = 0;
+	q.push(make_pair(x,y)); // make_pair 쓸 때 조심하기
+	visited[x][y] = true;
 	while (!q.empty()) {
-		tuple<int, int> v = q.front();
+		pair<int, int> cur = q.front();
 		q.pop();
-		int ci = get<0>(v);
-		int cj = get<1>(v);
-		mx_i = max(mx_i, ci);
 		for (int i = 0; i < 4; i++) {
-			int nx = ci + dx[i];
-			int ny = cj + dy[i];
-			if (visited[nx][ny] == 0 && (map[ci][cj] == map[nx][ny] || (contain(exit_set, { ci,cj }) && map[nx][ny] > 1))) {
-				q.push({ nx,ny });
-				visited[nx][ny] = 1;
+			int nx = cur.first + dx[i];
+			int ny = cur.second + dy[i];
+			if (in_range(nx, ny) && !visited[nx][ny] && (map[nx][ny] == map[cur.first][cur.second] || (map[nx][ny] != 0 && Exit[cur.first][cur.second]))) {
+				q.push(make_pair(nx,ny));
+				visited[nx][ny] = true;
+				result = max(result, nx);
 			}
 		}
 	}
-	return mx_i - 2;
+	cout << result << endl;
+	return result;
 }
 
-
-int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-
-	cin >> R >> C >> K;
-	for (int i = 0; i < K; i++) {
-		int c, d;
-		cin >> c >> d;
-		tuple<int, int> m = make_tuple(c, d);
-		unit.push_back(m);
+void down(int x, int y, int d, int id) {
+	if (cango(x + 1, y)) {
+		down(x + 1, y, d, id);
 	}
-	init_map();
-	//check_map();
-	//check_tuple();
-	for (auto i : unit) {
-		int c = get<0>(i);
-		int d = get<1>(i);
-		int r = 1;
-		while (1) {
-			if (map[r + 1][c - 1] + map[r + 2][c] + map[r + 1][c + 1] == 0) {
-				r++;
-			}
-			else if (map[r - 1][c - 1] + map[r][c - 2] + map[r + 1][c - 1] + map[r + 1][c - 2] + map[r + 2][c-1] == 0) {
-				d = (d -1) % 4;
-				r += 1;
-				c -= 1;
-			}
-			else if (map[r - 1][c + 1] + map[r][c + 2] + map[r + 1][c + 1] + map[r + 1][c + 2] + map[r + 2][c + 1] == 0) {
-				d = (d + 1) % 4;
-				r += 1;
-				c += 1;
-			}
-			else break;
-		}
-		if (r < 3) {
-			init_map();
-			exit_set.clear();
+	else if (cango(x + 1, y - 1)) {
+		down(x + 1, y - 1, (d+3)%4, id);
+	}
+	else if (cango(x + 1, y + 1)) {
+		down(x + 1, y + 1, (d+1)%4, id);
+	}
+	else {
+		if (!in_range(x - 1, y - 1) || !in_range(x + 1, y + 1)) {
+			reset_map();
 		}
 		else {
-			map[r][c] = num;
-			map[r + 1][c] = num;
-			map[r - 1][c] = num;
-			map[r][c + 1] = num;
-			map[r][c - 1] = num;
-			num++;
-			exit_set.push_back({ r + dx[d],c + dy[d] });
-			ans += bfs(r, c);
+			map[x][y] = id;
+			for (int k = 0; k < 4; k++) {
+				map[x + dx[k]][y + dy[k]] = id;
+			}
+			Exit[x + dx[d]][y + dy[d]] = true;
+			ans += bfs(x, y) - 3 + 1;
 		}
-		//check_map();
-		//check_exit_set();
-		//cout << endl;
-		init_visited();
-		//cout << ans << " ";
 	}
-	cout << ans;
+}
+
+int main() {
+	cin >> R >> C >> K;
+	for (int id = 1; id <= K; id++) {
+		int y, d;
+		cin >> y >> d;
+		y--;
+		down(0, y, d, id);
+		/*
+		for (int j = 0; j < R + 3; j++) {
+			for (int k = 0; k < C; k++) {
+				cout << map[j][k] << " ";
+			}
+			cout << endl;
+		}
+		cout << endl;
+		*/
+		
+		/*
+		for (int j = 0; j < R + 3; j++) {
+			for (int k = 0; k < C; k++) {
+				cout << Exit[j][k] << " ";
+			}
+			cout << endl;
+		}
+		*/
+		
+	}
+	cout << ans << "\n";
 }

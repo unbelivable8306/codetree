@@ -76,7 +76,7 @@ void down(int x, int y, int d, int id) {
 		down(x + 1, y + 1, (d+1)%4, id);
 	}
 	else {
-		if (x<3) {
+		if (x-1<3) {
 			reset_map();
 		}
 		else {
@@ -105,15 +105,6 @@ int main() {
 			cout << endl;
 		}
 		cout << endl;
-		*/
-		
-		/*
-		for (int j = 0; j < R + 3; j++) {
-			for (int k = 0; k < C; k++) {
-				cout << Exit[j][k] << " ";
-			}
-			cout << endl;
-		}
 		*/
 		
 	}

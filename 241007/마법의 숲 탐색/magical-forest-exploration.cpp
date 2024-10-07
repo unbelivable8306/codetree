@@ -76,7 +76,7 @@ void down(int x, int y, int d, int id) {
 		down(x + 1, y + 1, (d+1)%4, id);
 	}
 	else {
-		if (!in_range(x - 1, y - 1) || !in_range(x + 1, y + 1)) {
+		if (x<3) {
 			reset_map();
 		}
 		else {

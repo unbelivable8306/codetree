@@ -10,7 +10,6 @@ using namespace std;
 int L, N, Q; // L : 체스판의 크기. N : 기사의 수, Q : 명령의 수
 int board[MAX_L][MAX_L]; // 보드(장애물, 함정)
 int map[MAX_L][MAX_L]; // 맵(기사)
-bool live[MAX_N];
 int hp[MAX_N];
 int damage[MAX_N];
 vector<pair<int, int>> knight[MAX_N]; // 기사들 좌표
@@ -44,7 +43,7 @@ void debug() {
 	}
 	cout << "This is hp" << "\n";
 	for (int i = 1; i <= N; i++) {
-		cout << live[i] << " ";
+		cout << hp[i] << " ";
 	}
 	cout << "\n";
 }
@@ -52,9 +51,7 @@ void debug() {
 bool in_range(int x, int y) {
 	return 1 <= x && x <= L && 1 <= y && y <= L;
 }
-bool is_alive(int num) {
-	return live[num] == 1;
-}
+
 void del_map(int num) {
 	for (int i = 1; i <= L; i++) {
 		for (int j = 1; j <= L; j++) {
@@ -96,9 +93,6 @@ int main() {
 				hp[i] = k;
 			}
 		}
-	}
-	for (int i = 0; i < MAX_N; i++) { // 생명 불어넣기
-		live[i] = true;
 	}
 	
 	for (int i = 1; i <= Q; i++) {
@@ -147,34 +141,33 @@ int main() {
 		//여기까지도 괜찮
 		init_map();
 		for (int j = 1; j <= N; j++) { // map에다가 이제 맞게 옮겨주기
-			if (hp[j]==0) continue; // 살아있다면
+			if (hp[j]<=0) continue; // 살아있다면
 			for (int k = 0; k < knight[j].size(); k++) {
 				int r = knight[j][k].first;
 				int c = knight[j][k].second;
 				map[r][c] = j;
 			}
-			
 		}
+		
 		//여기까지도 괜찮
-		for (int j = 1; j <= L; j++) { // 돌면서 
-			for (int k = 1; k <= L; k++) {
-				if (board[j][k] == 0 || map[j][k] == 0) continue; // 보드에 장애물도 없고 암것도 없거나 맵에 아무도 없으면 패스
-				if (board[j][k] == 1 && map[j][k] != 0 && map[j][k] != num && in_vec(map[j][k],v_num)) { // 당사자 아니고, 보드에 1이 있고 맵에 누군가 있다면
-					hp[map[j][k]]--; // 생명까고
-					damage[map[j][k]]++; // 데미지 올라가고
-					if (hp[map[j][k]] == 0) { //만약 생명 0됐으면
-						del_map(map[j][k]); //체스판에서 지우고
-						live[map[j][k]] = false; //생명 끄기
-					}
+		for (int j = 0; j < v_num.size(); j++) {
+			int number = v_num[j];
+			for (int k = 0; k < knight[number].size(); k++) {
+				int r = knight[number][k].first;
+				int c = knight[number][k].second;
+				if (board[r][c] == 1 && map[r][c] != num) {
+					hp[number]--;
+					damage[number]++;
 				}
 			}
+			if (hp[number] <= 0) del_map(number);
 		}
 		//debug();
 	}
 
 	int sum = 0;
 	for (int i = 1; i <= N; i++) {
-		if (hp[i]==0) continue;
+		if (hp[i]<=0) continue;
 		sum += damage[i];
 	}
 	cout << sum;

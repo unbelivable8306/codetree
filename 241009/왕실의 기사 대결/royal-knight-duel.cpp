@@ -147,7 +147,7 @@ int main() {
 		//여기까지도 괜찮
 		init_map();
 		for (int j = 1; j <= N; j++) { // map에다가 이제 맞게 옮겨주기
-			if (!is_alive(i)) continue; // 살아있다면
+			if (hp[j]==0) continue; // 살아있다면
 			for (int k = 0; k < knight[j].size(); k++) {
 				int r = knight[j][k].first;
 				int c = knight[j][k].second;

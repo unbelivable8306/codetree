@@ -127,6 +127,11 @@ int main() {
 			}
 			if (prevx != man[i].first || prevy != man[i].second) Dist[i]++;
 		}
+		bool break_flag = 1;
+		for (int i = 1; i <= M; i++) {
+			if (escape[i] != 1) break_flag = 0;
+		}
+		if (break_flag == 1) break;
 		//cout << closet.first << " " << closet.second.first << " " << closet.second.second << " " << endl;
 		// 회전 좌측 상단 점 찾기
 		int length = max(abs(Exit.first - closet.second.first), abs(Exit.second - closet.second.second));
@@ -142,7 +147,7 @@ int main() {
 			}
 			if (exitflag) break;
 		}
-		//debug();
+		
 	}
 	int sum = 0;
 	for (int i = 1; i <= M; i++) {

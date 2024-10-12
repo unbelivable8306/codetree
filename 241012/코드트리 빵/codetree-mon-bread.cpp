@@ -86,15 +86,32 @@ bool cmp(pair<int, pair<int, int>> a, pair<int, pair<int, int>> b) {
 }
 
 void find_camp(int r, int c) {
+	int decide_x=0;
+	int decide_y=0;
 	for (int i = 0; i < camp.size(); i++) {
 		camp[i].first = abs(r - camp[i].second.first) + abs(c - camp[i].second.second);
 	}
 	sort(camp.begin(), camp.end(), cmp);
-	int x = camp[0].second.first;
-	int y = camp[0].second.second;
-	board[x][y] = 1;
-	board_people[Time].first = x;
-	board_people[Time].second = y;
+	for (int i = 0; i < camp.size(); i++) {
+		int x = camp[i].second.first;
+		int y = camp[i].second.second;
+		if (board[x][y] == 0) {
+			decide_x = x;
+			decide_y = y;
+			break;
+		}
+	}
+	board[decide_x][decide_y] = 1;
+	board_people[Time].first = decide_x;
+	board_people[Time].second = decide_y;
+
+}
+
+void print_people() {
+	for (int i = 1; i <= m; i++) {
+		cout << i << "번 사람" << endl;
+		cout << "(" << board_people[i].first << "," << board_people[i].second << ")" << endl;
+	}
 }
 
 int main() {
@@ -123,7 +140,10 @@ int main() {
 		pair<int, int> m = store[Time];
 		in_board[Time] = true;
 		find_camp(store[Time].first, store[Time].second);
+		
+		//cout << Time << "초 경과" << endl;
+		//print_people();
 		Time++;
 	}
-	cout << Time+1;
+	cout << Time-1;
 }
